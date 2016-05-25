@@ -142,6 +142,8 @@ controller.on('message_received', function(bot, message) {
         console.log("BODY: ", body);
         var hospitals = body.results
 
+        console.log("FIRST HOSPITAL: ", body.results[0].name);
+
         if (!error && response.statusCode == 200) {
           bot.reply(message, {
             "attachment":{
@@ -150,7 +152,7 @@ controller.on('message_received', function(bot, message) {
             "template_type":"generic",
             "elements":[
               {
-                "title": body.results[0].name,
+                "title": body['results'][0]['name'],
                 "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
                 "subtitle": body.results[0].vicinity,
                 "buttons":[
