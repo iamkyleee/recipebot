@@ -71,7 +71,7 @@ controller.hears(['hello', 'hi'], 'message_received', function (bot, message){
 controller.on('facebook_postback', function(bot, message){
 
   if (message.payload.startsWith('GetNumber')) {
-    var place_id = message.payload.split('_')[1] || 'error getting place id';
+    var place_id = message.payload.split('@')[1] || 'error getting place id';
     bot.reply(message, JSON.stringify(message.payload));
     console.log(JSON.stringify(message.payload))
     console.log("Place ID: ", place_id );
