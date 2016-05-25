@@ -217,7 +217,7 @@ function getPlacePhoto(place){
     console.log(place.icon)
     return place.icon
   }
-  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos.photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
+  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos[0].photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 
   console.log(imageUrl)
   return imageUrl
