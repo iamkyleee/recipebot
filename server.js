@@ -55,7 +55,7 @@ controller.on('facebook_postback', function(bot, message){
           var details = JSON.parse(body);
 
           var phoneNumber = details.result.formatted_phone_number
-          console.log("Phone Number: " + phoneNumber)
+          // console.log("Phone Number: " + phoneNumber)
           bot.reply(message, phoneNumber)
 
     }
@@ -107,7 +107,7 @@ controller.on('message_received', function(bot, message) {
       long = location.long;
       var type = "hospital"
 
-      bot.reply(message, "Your Coords: " + lat + ", "+ long);
+      // bot.reply(message, "Your Coords: " + lat + ", "+ long);
       httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=10000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
         // console.log("BODY: ", body);
@@ -135,8 +135,8 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://petersapparel.parseapp.com/view_item?item_id=100",
-                    "title":"View Item"
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.long +"",
+                    "title":"Get Directions"
                   },
                   {
                     "type":"web_url",
@@ -157,8 +157,8 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://petersapparel.parseapp.com/view_item?item_id=101",
-                    "title":"View Item"
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.long +"",
+                    "title":"Get Directions"
                   },
                   {
                     "type":"web_url",
@@ -214,11 +214,9 @@ function getPhoneNumber(placeId){
 
 function getPlacePhoto(place){
   if (!place.photos) {
-    console.log(place.icon)
     return place.icon
   }
-  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos[0].photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 
-  console.log(imageUrl)
+  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos[0].photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
   return imageUrl
 }
