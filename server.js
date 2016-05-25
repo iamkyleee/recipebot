@@ -150,9 +150,9 @@ controller.on('message_received', function(bot, message) {
             "template_type":"generic",
             "elements":[
               {
-                "title": hospitals[0].name,
+                "title": body.results[0].name,
                 "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
-                "subtitle": hospitals[0].vicinity,
+                "subtitle": body.results[0].vicinity,
                 "buttons":[
                   {
                     "type":"web_url",
