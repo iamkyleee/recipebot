@@ -139,7 +139,8 @@ controller.on('message_received', function(bot, message) {
       // bot.reply(message, "Your Coords: " + lat + ", "+ long);
       httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
-        var hospitals = body.results
+        console.log("BODY: ", body);
+        /*var hospitals = body.results
 
         if (!error && response.statusCode == 200) {
           bot.reply(message, {
@@ -195,8 +196,8 @@ controller.on('message_received', function(bot, message) {
             ]
           }
         }
-          })
-        }
+      })
+    }*/
       })
       // console.log(hospitals);
       // bot.reply(message, JSON.stringify(hospitals));
