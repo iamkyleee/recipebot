@@ -239,6 +239,7 @@ function getPlacePhoto(place){
   if (!place.photos) {
     return "http://www.improvefaster.com/img/hospitals/hospitals15.jpg"
   }
-  const imageUrl =
-      return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
+  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
+
+  return imageUrl
 }
