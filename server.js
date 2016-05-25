@@ -64,7 +64,6 @@ controller.on('facebook_postback', function(bot, message){
 }
 
 
-  }
 })
 
 controller.on('message_received', function(bot, message) {
@@ -191,16 +190,16 @@ controller.on('message_received', function(bot, message) {
 
   }
 
-  ref.child("chats").push({
-    author: author,
-    timestamp: timestamp,
-    text: text,
-    image: image,
-    location: location,
-    url: url
-  }, function(err){
-    console.log("ERROR: ", err);
-  })
+  // ref.child("chats").push({
+  //   author: author,
+  //   timestamp: timestamp,
+  //   text: text,
+  //   image: image,
+  //   location: location,
+  //   url: url
+  // }, function(err){
+  //   console.log("ERROR: ", err);
+  // })
 
 
 
