@@ -123,7 +123,7 @@ controller.on('message_received', function(bot, message) {
         text = false
 
       if (attachment.title)
-        text = attachments.title
+        text = attachment.title
 
 
       location = attachment.payload.coordinates
