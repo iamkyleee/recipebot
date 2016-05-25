@@ -81,7 +81,7 @@ controller.on('facebook_postback', function(bot, message){
 
           bot.reply(message, phoneNumber)
 
-    })
+    }
   }
 
 
