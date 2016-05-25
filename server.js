@@ -111,10 +111,10 @@ controller.on('message_received', function(bot, message) {
 
 
     if (attachment.type === 'image') {
-      if (message.text == "undefined")
-        var text = false
+      if (!message.text)
+        text = false
 
-        var image = attachment.payload.url
+        image = attachment.payload.url
     }
 
     if (message.attachments.type == 'location' ) {
