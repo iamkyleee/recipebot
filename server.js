@@ -37,7 +37,7 @@ controller.setupWebserver(port, function(err, webserver){
   if(err) return console.log(err);
 
   controller.createWebhookEndpoints(webserver, bot, function(){
-    console.log(webserver);
+    console.log("Webserver Ready");
   })
 
 })
@@ -136,7 +136,68 @@ controller.on('message_received', function(bot, message) {
       long = location.long
 
       var hospitals = findPlaces(lat, long, 'hospital')
-      bot.reply(message, "Your Coords: " + lat + ", "+ long);
+      // bot.reply(message, "Your Coords: " + lat + ", "+ long);
+      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+
+        var hospitals = body.result
+
+        if (!error && response.statusCode == 200) {
+          bot.reply(message, {
+            "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"generic",
+            "elements":[
+              {
+                "title": hospitals[0].name,
+                "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
+                "subtitle": hospitals[0].vicinity,
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com/view_item?item_id=100",
+                    "title":"View Item"
+                  },
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com/buy_item?item_id=100",
+                    "title":"Buy Item"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Bookmark Item",
+                    "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM100"
+                  }
+                ]
+              },
+              {
+                "title": hospitals[1].name,
+                "image_url": "http://petersapparel.parseapp.com/img/item101-thumb.png",
+                "subtitle": hospitals[1].vicinity,
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com/view_item?item_id=101",
+                    "title":"View Item"
+                  },
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com/buy_item?item_id=101",
+                    "title":"Buy Item"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Bookmark Item",
+                    "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM101"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+          })
+        }
+      })
       // console.log(hospitals);
       // bot.reply(message, JSON.stringify(hospitals));
 
@@ -168,67 +229,7 @@ controller.on('message_received', function(bot, message) {
 });
 
 function findPlaces(lat, long, type){
-  httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
-    var hospitals = body.result
-
-    if (!error && response.statusCode == 200) {
-      bot.reply(message, {
-        "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"generic",
-        "elements":[
-          {
-            "title": hospitals[0].name,
-            "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
-            "subtitle": hospitals[0].vicinity,
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com/view_item?item_id=100",
-                "title":"View Item"
-              },
-              {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com/buy_item?item_id=100",
-                "title":"Buy Item"
-              },
-              {
-                "type":"postback",
-                "title":"Bookmark Item",
-                "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM100"
-              }
-            ]
-          },
-          {
-            "title": hospitals[1].name,
-            "image_url": "http://petersapparel.parseapp.com/img/item101-thumb.png",
-            "subtitle": hospitals[1].vicinity,
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com/view_item?item_id=101",
-                "title":"View Item"
-              },
-              {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com/buy_item?item_id=101",
-                "title":"Buy Item"
-              },
-              {
-                "type":"postback",
-                "title":"Bookmark Item",
-                "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM101"
-              }
-            ]
-          }
-        ]
-      }
-    }
-      })
-    }
-  })
 }
 
 function getPlacePhoto(photoReference){
