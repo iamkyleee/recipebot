@@ -101,7 +101,7 @@ controller.on('message_received', function(bot, message) {
       attachment,
       author    = message.user,
       timestamp = message.timestamp,
-      text      = = message.text;
+      text      = message.text;
 
   console.log("MESSAGE: ", JSON.stringify(message));
 
@@ -122,7 +122,7 @@ controller.on('message_received', function(bot, message) {
     }
 
   }
-  
+
   ref.child("chats").push({
     author: author,
     timestamp: timestamp,
