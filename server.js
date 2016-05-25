@@ -73,8 +73,10 @@ controller.on('facebook_postback', function(bot, message){
   if (message.payload.startsWith('GetNumber')) {
     var place_id = message.payload.split('_')[1] || 'error getting place id';
     bot.reply(message, JSON.stringify(message.payload));
+    console.log(JSON.stringify(message.payload))
+    console.log("Place ID: ", place_id );
     bot.reply(message, place_id)
-    httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+    /*httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
       if (!error && response.statusCode == 200) {
           var details = JSON.parse(body);
 
@@ -83,7 +85,7 @@ controller.on('facebook_postback', function(bot, message){
           bot.reply(message, phoneNumber)
 
     }
-  })
+  })*/
 
 }
 
@@ -158,7 +160,7 @@ controller.on('message_received', function(bot, message) {
       bot.reply(message, "Your Coords: " + lat + ", "+ long);
       httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=10000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
-        console.log("BODY: ", body);
+        // console.log("BODY: ", body);
         var hospitals = JSON.parse(body)
 
         if (hospitals.status !== "OK") {
