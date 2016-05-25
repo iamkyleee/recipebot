@@ -42,40 +42,14 @@ controller.setupWebserver(port, function(err, webserver){
 
 })
 
-controller.hears(['hello', 'hi'], 'message_received', function (bot, message){
-  bot.reply(message, 'Ey man!')
-  bot.reply(message, "What's good?")
-  bot.reply(message, {
-    attachment:{
-      type: 'template',
-      payload: {
-        template_type: 'button',
-        text: 'Which do you prefer',
-        buttons: [
-          {
-            type: 'postback',
-            title: 'Cats',
-            payload: 'show_cat'
-          },
-          {
-            type: 'postback',
-            title: 'Dogs',
-            payload: 'show_dog'
-          }
-      ]
-      }
-    }
-  })
-})
-
 controller.on('facebook_postback', function(bot, message){
 
   if (message.payload.startsWith('GetNumber')) {
     var place_id = message.payload.split('@')[1] || 'error getting place id';
-    bot.reply(message, JSON.stringify(message.payload));
-    console.log(JSON.stringify(message.payload))
-    console.log("Place ID: ", place_id );
-    bot.reply(message, place_id)
+    // bot.reply(message, JSON.stringify(message.payload));
+    // console.log(JSON.stringify(message.payload))
+    // console.log("Place ID: ", place_id );
+    // bot.reply(message, place_id)
     httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
       if (!error && response.statusCode == 200) {
           var details = JSON.parse(body);
@@ -89,29 +63,6 @@ controller.on('facebook_postback', function(bot, message){
 
 }
 
-
-  switch (message.payload) {
-    case 'show_cat':
-      bot.reply(message, {
-        attachment: {
-          type: 'image',
-          payload:{
-            url: 'https://media.giphy.com/media/F69JmzpmSaffi/giphy.gif'
-          }
-        }
-      })
-      break;
-
-    case 'show_dog':
-      bot.reply(message, {
-        attachment: {
-          type: 'image',
-          payload:{
-            url: 'https://media.giphy.com/media/J3ODsTxAB7U7m/giphy.gif'
-          }
-        }
-      })
-      break;
 
   }
 })
