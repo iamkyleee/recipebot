@@ -219,7 +219,7 @@ controller.on('message_received', function(bot, message) {
 });
 
 function findPlaces(lat, long, type){
-  request('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+  httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
     if (!error && response.statusCode == 200) {
       return body.results
     }
