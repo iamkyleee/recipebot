@@ -118,11 +118,11 @@ controller.on('message_received', function(bot, message) {
         image = attachment.payload.url
     }
 
-    if (message.attachments.type == 'location' ) {
+    if (attachment.type === 'location' ) {
       if (!message.text)
         text = false
 
-      if (attachments.title)
+      if (attachment.title)
         text = attachments.title
 
 
