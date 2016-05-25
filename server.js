@@ -33,14 +33,14 @@ var controller = Botkit.facebookbot({
 
 var bot = controller.spawn()
 
-// controller.setupWebserver(port, function(err, webserver){
-//   if(err) return console.log(err);
-//
-//   controller.createWebhookEndpoints(webserver, bot, function(){
-//     console.log(webserver);
-//   })
-//
-// })
+controller.setupWebserver(port, function(err, webserver){
+  if(err) return console.log(err);
+
+  controller.createWebhookEndpoints(webserver, bot, function(){
+    console.log(webserver);
+  })
+
+})
 
 controller.hears(['hello', 'hi'], 'message_received', function (bot, message){
   bot.reply(message, 'Ey man!')
@@ -171,7 +171,7 @@ function findPlaces(lat, long, type){
   httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
     var hospitals = body.result
-    
+
     if (!error && response.statusCode == 200) {
       bot.reply(message, {
         "attachment":{
