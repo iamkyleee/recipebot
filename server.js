@@ -82,7 +82,7 @@ controller.on('facebook_postback', function(bot, message){
           bot.reply(message, phoneNumber)
 
     }
-  }
+  })
 
 
   switch (message.payload) {
