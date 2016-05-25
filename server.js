@@ -142,7 +142,7 @@ controller.on('message_received', function(bot, message) {
         console.log("BODY: ", body);
         var hospitals = body.results
 
-        console.log("FIRST HOSPITAL: ", body.results[0].name);
+        // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
         if (!error && response.statusCode == 200) {
           bot.reply(message, {
