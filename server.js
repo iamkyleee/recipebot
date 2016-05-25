@@ -134,7 +134,7 @@ controller.on('message_received', function(bot, message) {
       lat = location.lat;
       long = location.long
 
-      var hospitals = findPlaces(lat, long, hospital)
+      var hospitals = findPlaces(lat, long, 'hospital')
       bot.reply(message, "Your Coords: " + lat + ", "+ long);
       bot.reply(message, hospitals);
       bot.reply(message, {
