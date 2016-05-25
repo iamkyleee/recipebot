@@ -59,7 +59,7 @@ controller.on('facebook_postback', function(bot, message){
           bot.reply(message, phoneNumber)
 
     }
-  })
+  });
 
 }
 
@@ -77,7 +77,7 @@ controller.on('message_received', function(bot, message) {
       lat = false,
       long = false;
 
-  console.log("MESSAGE: ", JSON.stringify(message));
+  // console.log("MESSAGE: ", JSON.stringify(message));
 
 
   if (message.attachments && message.attachments.length > 0) {
