@@ -136,7 +136,7 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.lng + '"',
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.lng,
                     "title":"Get Directions"
                   },
                   {
@@ -158,13 +158,12 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.lng + '"',
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.lng,
                     "title":"Get Directions"
                   },
                   {
                     "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345
-",
+                    "url":"https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
                     "title":"Buy Item"
                   },
                   {
