@@ -72,7 +72,7 @@ controller.on('facebook_postback', function(bot, message){
 
   if (message.payload.startsWith('GetNumber')) {
     var place_id = message.payload.split('_')[1] || 'error getting place id';
-    bot.reply(message, JSON.stringify(message.payload))
+    bot.reply(message, JSON.stringify(message.payload));
     bot.reply(message, place_id)
     httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
       if (!error && response.statusCode == 200) {
