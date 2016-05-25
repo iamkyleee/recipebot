@@ -168,7 +168,7 @@ controller.on('message_received', function(bot, message) {
                   {
                     "type":"postback",
                     "title":"Bookmark Item",
-                    "payload":"GetNumber@"+ hospitals.results[0].place_id
+                    "payload":"GetNumber@"+ hospitals.results[1].place_id
                   }
                 ]
               }
@@ -214,9 +214,11 @@ function getPhoneNumber(placeId){
 
 function getPlacePhoto(place){
   if (!place.photos) {
+    bot.reply(place.icon)
     return place.icon
   }
-  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
+  const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos.photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 
+  bot.reply(message, imageUrl)
   return imageUrl
 }
