@@ -140,7 +140,7 @@ controller.on('message_received', function(bot, message) {
       httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=1000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
         console.log("BODY: ", body);
-        var hospitals = JSON.parse(body.results)
+        var hospitals = JSON.parse(body)
 
         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
@@ -152,9 +152,9 @@ controller.on('message_received', function(bot, message) {
             "template_type":"generic",
             "elements":[
               {
-                "title": hospitals[0].name,
+                "title": hospitals.results[0].name,
                 "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
-                "subtitle": hospitals[0].name,
+                "subtitle": hospitals.results[0].name,
                 "buttons":[
                   {
                     "type":"web_url",
