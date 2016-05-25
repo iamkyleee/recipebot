@@ -99,7 +99,7 @@ controller.on('message_received', function(bot, message) {
 
 
   var author    = message.user
-  var timestamp = timestamp
+  var timestamp = message.timestamp
   var text      = message.text
 
   ref.child("chats").push({
