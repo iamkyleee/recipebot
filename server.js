@@ -214,11 +214,11 @@ function getPhoneNumber(placeId){
 
 function getPlacePhoto(place){
   if (!place.photos) {
-    bot.reply(place.icon)
+    console.log(place.icon)
     return place.icon
   }
   const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place.photos.photo_reference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 
-  bot.reply(message, imageUrl)
+  console.log(message, imageUrl)
   return imageUrl
 }
