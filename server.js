@@ -98,6 +98,7 @@ controller.on('facebook_postback', function(bot, message){
 controller.on('message_received', function(bot, message) {
   var image     = false,
       location  = false,
+      url = false,
       attachment,
       author    = message.user,
       timestamp = message.timestamp,
@@ -118,7 +119,18 @@ controller.on('message_received', function(bot, message) {
     }
 
     if (message.attachments.type == 'location' ) {
+      if (!message.text)
+        text = false
+
+      if (attachments.title)
+        text = attachments.title
+
+
       location = attachment.payload.coordinates
+      url = attachment.url
+
+
+
     }
 
   }
@@ -128,7 +140,8 @@ controller.on('message_received', function(bot, message) {
     timestamp: timestamp,
     text: text,
     image: image,
-    location: location
+    location: location,
+    url: url
   }, function(err){
     console.log("ERROR: ", err);
   })
