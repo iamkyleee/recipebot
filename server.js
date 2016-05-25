@@ -1,6 +1,8 @@
 var Botkit   = require('botkit');
 var httpRequest  = require('request');
 var Firebase = require('firebase');
+// var config = require('./config.js');
+
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
@@ -102,7 +104,9 @@ controller.on('message_received', function(bot, message) {
       attachment,
       author    = message.user,
       timestamp = message.timestamp,
-      text      = message.text;
+      text      = message.text,
+      lat = false,
+      long = false;
 
   console.log("MESSAGE: ", JSON.stringify(message));
 
@@ -126,8 +130,71 @@ controller.on('message_received', function(bot, message) {
         text = attachment.title
 
 
+
       location = attachment.payload.coordinates
       url = attachment.url
+
+      lat = location.lat;
+      long = location.long
+
+      var hospitals = findPlaces(lat, long, hospital)
+      bot.reply(message, "Your Coords: " + lat + ", "+ long);
+      bot.reply(message, hospital)
+      bot.reply(message, {
+        "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+          {
+            "title":"Classic White T-Shirt",
+            "image_url":"http://petersapparel.parseapp.com/img/item100-thumb.png",
+            "subtitle":"Soft white cotton t-shirt is back in style",
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com/view_item?item_id=100",
+                "title":"View Item"
+              },
+              {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com/buy_item?item_id=100",
+                "title":"Buy Item"
+              },
+              {
+                "type":"postback",
+                "title":"Bookmark Item",
+                "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM100"
+              }
+            ]
+          },
+          {
+            "title":"Classic Grey T-Shirt",
+            "image_url":"http://petersapparel.parseapp.com/img/item101-thumb.png",
+            "subtitle":"Soft gray cotton t-shirt is back in style",
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com/view_item?item_id=101",
+                "title":"View Item"
+              },
+              {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com/buy_item?item_id=101",
+                "title":"Buy Item"
+              },
+              {
+                "type":"postback",
+                "title":"Bookmark Item",
+                "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM101"
+              }
+            ]
+          }
+        ]
+      }
+      })
+
+
 
 
 
@@ -153,8 +220,12 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
-function processLocation(sender, coords){
-
+function findPlaces(lat, long, type){
+  request('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+    if (!error && response.statusCode == 200) {
+      return body.results
+    }
+  })
 }
 
 function processImages(sender, image){
