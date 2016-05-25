@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ireport-dev",
+  "private_key_id": "d295383b217fb7808fb1c3895db28e981bcad04c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCT3ifWMsl8WnWM\nuDaGb8c546Cmwo/BXfUZHdfThzr6Uzcifqh5xqOrBOXJ1AS+NHKo3fxW0/jpqPtK\nS2IAS8PxDYoPiHaVpLo/5/I0yO8uqCr0kFyQm/2WWaWCVe1i+4it3rFw+iH1OcnM\nrIULxtDy5ZiwA7g0YUVipAA+ywet7YrWxX4PozNF5TQXeD852kna+j7n050X88hC\npJWopJMLCToYdkUc94YsgQlTOwIFRoxEzDFrXIe15mIWVhx5R7EoiLWHkFv5EzyU\n+ySAZIwioa2QQavHRvrCEgSuaam49twAbMGJKjEbNqfvwR4p8ciS1wjG8G1K96YH\n6f44ic37AgMBAAECggEAXMNvxmbSFBtDx2YBftE88MomjLdeK/bfvkQElAUwML5n\nxlIjK1I8dxt5dOZ3m0OX8uxgU7BjZWLHUtJ7xqfBYsYVqKz5h+NxnInMXuT3eBOz\n7v1ptKbHrbzLojp51DDsi/c65h9lkkwQl0BbrwmpJ9h1s2aB9wpW1wz/wmToimmW\nQglm+8IbankK7C9IeIYriazKMFf+AQve/+a+Se5d7CiKuW/9Tj/e1LZbjLW8E9a7\ncU4vtDtpPMuD4UmF+jl78X7rck+epUiUFc7s+Xsv03gp5gP1MG89xIl+Cn/0BvEC\nHEqG8VVge77opXFDKQQg6Zcbi10nvfvUZgbmwTvFAQKBgQDi22OIbShoozqFmmfE\nfg8aHCZjGK+r3tlzDzU4HyqmL3IE7ywdrG41wIaeTYWW3Dp67hkIQCFIOCOqmzXs\noC7PR8RMiuGJSkZt4SVwolaXXdv40JnwX6eKLcB/uvYSmW26iIjsmlONUqY1FryC\nEaJPd44n6k/tBZweICQpQQfGOwKBgQCm3Q+v/UGsiFAdBxtI4ntS6gaObjQndm9/\n9D/LBWsue5YRpRtwA+ZlGlcXzbLfjOd1uTghK9wPKMAifHMRQIySQjueV1w9cDPm\nFk7njtnuWeYwGKWCBKE7VLmDIgOVSXi1/UJxfsUxqwESnqzpJBun5RnMXGeYeQp4\ng53AsTTbQQKBgQDBoUSJc7Jj7b7LvokHfBljzdcuCioXZvTvcnGYX3HFuwV1FLfw\n8/Z1xsigYca+h2ca+hM/qY0+2TwIKMaUG/0YS0dPldL/nfgTXXLZepaySBizfUmH\nk/2qwXZnD6ttIKw55MQKP4dFPuBCvA9Wbbq+XWtmwmZKBtnEFOcIl0sNdQKBgAy8\nTpg2Ei8i8Epm4nQ7pQH9DqcMTjq81WHEuKG8NiQEFr4eBewUwB7zVbZhYsehL4FS\ns7AEcvVNPOzk5rtoW9JF79rz+/xMdgmXpkoSIxwIDIObPfagd9XZb5dMn01joCzz\nuYCEFnTmAlzzc2sP8HRuDfwFCXsfsebk1MOCQvCBAoGBAIML7xdNLLc1QgO8QNU8\nMbZIunCmyVn9Rt3XIBTONBu9MibOJhlBm2oXPjwJdd1IH79YIPk/OiT30MtDEs46\nZmttCK0RIsxcVc8jGF04nnxggwEbjaaUzUGxyFde+UY0McIgh36cxIjmxvORQUN+\n2cg0RwGPcptL9VcWEpujTnps\n-----END PRIVATE KEY-----\n",
+  "client_email": "ireport-dev-971@ireport-dev.iam.gserviceaccount.com",
+  "client_id": "102349522582275270779",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ireport-dev-971%40ireport-dev.iam.gserviceaccount.com"
+}

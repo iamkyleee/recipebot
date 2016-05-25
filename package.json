@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/iamkyleee/recipebot#readme",
   "dependencies": {
-    "botkit": "^0.1.2"
+    "botkit": "^0.1.2",
+    "firebase": "^3.0.3",
+    "request": "^2.72.0"
   }
 }

@@ -1,8 +1,24 @@
-var Botkit = require('botkit');
+var Botkit   = require('botkit');
+var httpRequest  = require('request');
+var Firebase = require('firebase');
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
-var port = process.env.PORT
+var port        = process.env.PORT
+
+firebase.initializeApp({
+  serviceAccount: "iReport-Dev-d295383b217f.json",
+  databaseURL: "https://ireport-dev.firebaseio.com/"
+});
+
+var fbDB = firebase.database();
+var ref = db.ref("/messages");
+ref.once("value", function(snapshot){
+  console.log(snapshot.val());
+})
+
+
+
 
 if (!accessToken) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN is required but missing')
 if (!verifyToken) throw new Error('FACEBOOK_VERIFY_TOKEN is required but missing')
@@ -78,9 +94,29 @@ controller.on('facebook_postback', function(bot, message){
 })
 
 controller.on('message_received', function(bot, message) {
-  console.log("BOT: ", bot);
-  console.log("MESSAGE: ", message);
+  // console.log("BOT: ", bot);
+  console.log("MESSAGE: ", JSON.stringify(message));
+
+
+  var author    = message.user
+  var timestamp = timestamp
+  var text      = message.text
+
+  ref.child("chats").push({
+    author: author,
+    timestamp: timestamp,
+    text: text
+  })
+
     // carefully examine and
     // handle the message here!
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
+
+function processLocation(sender, coords){
+
+}
+
+function processImages(sender, image){
+
+}
