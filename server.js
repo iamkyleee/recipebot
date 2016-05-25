@@ -6,12 +6,12 @@ var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
 var port        = process.env.PORT
 
-firebase.initializeApp({
+Firebase.initializeApp({
   serviceAccount: "iReport-Dev-d295383b217f.json",
   databaseURL: "https://ireport-dev.firebaseio.com/"
 });
 
-var fbDB = firebase.database();
+var fbDB = Firebase.database();
 var ref = db.ref("/messages");
 ref.once("value", function(snapshot){
   console.log(snapshot.val());
