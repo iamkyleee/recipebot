@@ -134,8 +134,8 @@ controller.on('message_received', function(bot, message) {
 
       lat = location.lat;
       long = location.long
+      var type = "hospital"
 
-      var hospitals = findPlaces(lat, long, 'hospital')
       // bot.reply(message, "Your Coords: " + lat + ", "+ long);
       httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
