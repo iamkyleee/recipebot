@@ -69,6 +69,22 @@ controller.hears(['hello', 'hi'], 'message_received', function (bot, message){
 })
 
 controller.on('facebook_postback', function(bot, message){
+
+  if (message.payload.startsWith('GetNumber')) {
+    var place_id = message.payload.split('_')[1];
+    bot.reply(message, place_id)
+    httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+      if (!error && response.statusCode == 200) {
+          var details = JSON.parse(body);
+
+          var phoneNumber = details.formatted_phone_number
+
+          bot.reply(message, phoneNumber)
+
+    })
+  }
+
+
   switch (message.payload) {
     case 'show_cat':
       bot.reply(message, {
@@ -137,14 +153,20 @@ controller.on('message_received', function(bot, message) {
       var type = "hospital"
 
       bot.reply(message, "Your Coords: " + lat + ", "+ long);
-      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=1000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=10000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
         console.log("BODY: ", body);
         var hospitals = JSON.parse(body)
 
+        if (hospitals.status !== "OK") {
+            return;
+        }
+
         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
         if (!error && response.statusCode == 200) {
+          bot.reply(message, "These are the 3 nearest Hospitals");
+
           bot.reply(message, {
             "attachment":{
           "type":"template",
@@ -168,8 +190,8 @@ controller.on('message_received', function(bot, message) {
                   },
                   {
                     "type":"postback",
-                    "title":"Bookmark Item",
-                    "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM100"
+                    "title":"Get Phone Number",
+                    "payload":"GetNumber_" + hospitals.results[0].place_id
                   }
                 ]
               },
@@ -191,7 +213,7 @@ controller.on('message_received', function(bot, message) {
                   {
                     "type":"postback",
                     "title":"Bookmark Item",
-                    "payload":"USER_DEFINED_PAYLOAD_FOR_ITEM101"
+                    "payload":"GetNumber_"+ hospitals.results[0].place_id
                   }
                 ]
               }
@@ -231,13 +253,13 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
-function findPlaces(lat, long, type){
+function getPhoneNumber(placeId){
 
 }
 
 function getPlacePhoto(place){
   if (!place.photos) {
-    return "http://www.improvefaster.com/img/hospitals/hospitals15.jpg"
+    return place.icon
   }
   const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 
