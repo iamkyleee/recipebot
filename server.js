@@ -145,9 +145,9 @@ controller.on('message_received', function(bot, message) {
         "template_type":"generic",
         "elements":[
           {
-            "title":"Classic White T-Shirt",
-            "image_url":"http://petersapparel.parseapp.com/img/item100-thumb.png",
-            "subtitle":"Soft white cotton t-shirt is back in style",
+            "title": hospitals[0].name,
+            "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
+            "subtitle": hospitals[0].vicinity,
             "buttons":[
               {
                 "type":"web_url",
@@ -167,9 +167,9 @@ controller.on('message_received', function(bot, message) {
             ]
           },
           {
-            "title":"Classic Grey T-Shirt",
-            "image_url":"http://petersapparel.parseapp.com/img/item101-thumb.png",
-            "subtitle":"Soft gray cotton t-shirt is back in style",
+            "title": hospitals[1].name,
+            "image_url": "http://petersapparel.parseapp.com/img/item101-thumb.png",
+            "subtitle": hospitals[1].vicinity,
             "buttons":[
               {
                 "type":"web_url",
@@ -227,6 +227,10 @@ function findPlaces(lat, long, type){
   })
 }
 
-function processImages(sender, image){
-
+function getPlacePhoto(photoReference){
+  httpRequest('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ photoReference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+    if (!error && response.statusCode == 200) {
+      return body
+    }
+  })
 }
