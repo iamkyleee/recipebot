@@ -6,6 +6,8 @@ var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
 var port        = process.env.PORT
 
+
+
 Firebase.initializeApp({
   serviceAccount: "iReport-Dev-d295383b217f.json",
   databaseURL: "https://ireport-dev.firebaseio.com/"
@@ -94,19 +96,44 @@ controller.on('facebook_postback', function(bot, message){
 })
 
 controller.on('message_received', function(bot, message) {
-  // console.log("BOT: ", bot);
+  var image     = false,
+      location  = false,
+      attachment,
+      author    = message.user,
+      timestamp = message.timestamp,
+      text      = = message.text;
+
   console.log("MESSAGE: ", JSON.stringify(message));
 
 
-  var author    = message.user
-  var timestamp = message.timestamp
-  var text      = message.text
+  if (message.attachments && message.attachments.length > 0) {
+    attachment = message.attachments[0];
 
+
+    if (attachment.type === 'image') {
+      if (message.text == "undefined")
+        var text = false
+
+        var image = attachment.payload.url
+    }
+
+    if (message.attachments.type == 'location' ) {
+      location = attachment.payload.coordinates
+    }
+
+  }
+  
   ref.child("chats").push({
     author: author,
     timestamp: timestamp,
-    text: text
+    text: text,
+    image: image,
+    location: location
+  }, function(err){
+    console.log("ERROR: ", err);
   })
+
+
 
     // carefully examine and
     // handle the message here!
