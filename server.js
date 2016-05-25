@@ -9,7 +9,7 @@ var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
 var port        = process.env.PORT
 
 
-process.exit();
+// process.exit();
 
 Firebase.initializeApp({
   serviceAccount: "iReport-Dev-d295383b217f.json",
@@ -33,14 +33,14 @@ var controller = Botkit.facebookbot({
 
 var bot = controller.spawn()
 
-controller.setupWebserver(port, function(err, webserver){
-  if(err) return console.log(err);
-
-  controller.createWebhookEndpoints(webserver, bot, function(){
-    console.log('Ready Player 1');
-  })
-
-})
+// controller.setupWebserver(port, function(err, webserver){
+//   if(err) return console.log(err);
+//
+//   controller.createWebhookEndpoints(webserver, bot, function(){
+//     console.log('Ready Player 1');
+//   })
+//
+// })
 
 controller.hears(['hello', 'hi'], 'message_received', function (bot, message){
   bot.reply(message, 'Ey man!')
