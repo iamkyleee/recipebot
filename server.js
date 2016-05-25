@@ -9,6 +9,7 @@ var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
 var port        = process.env.PORT
 
 
+process.exit();
 
 Firebase.initializeApp({
   serviceAccount: "iReport-Dev-d295383b217f.json",
