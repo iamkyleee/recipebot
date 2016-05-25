@@ -76,7 +76,7 @@ controller.on('facebook_postback', function(bot, message){
     console.log(JSON.stringify(message.payload))
     console.log("Place ID: ", place_id );
     bot.reply(message, place_id)
-    /*httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+    httpRequest('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place_id+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
       if (!error && response.statusCode == 200) {
           var details = JSON.parse(body);
 
@@ -85,7 +85,7 @@ controller.on('facebook_postback', function(bot, message){
           bot.reply(message, phoneNumber)
 
     }
-  })*/
+  })
 
 }
 
@@ -196,7 +196,7 @@ controller.on('message_received', function(bot, message) {
                   {
                     "type":"postback",
                     "title":"Get Phone Number",
-                    "payload":"GetNumber_" + hospitals.results[0].place_id
+                    "payload":"GetNumber@" + hospitals.results[0].place_id
                   }
                 ]
               },
@@ -218,7 +218,7 @@ controller.on('message_received', function(bot, message) {
                   {
                     "type":"postback",
                     "title":"Bookmark Item",
-                    "payload":"GetNumber_"+ hospitals.results[0].place_id
+                    "payload":"GetNumber@"+ hospitals.results[0].place_id
                   }
                 ]
               }
