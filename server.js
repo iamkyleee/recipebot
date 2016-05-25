@@ -174,9 +174,9 @@ controller.on('message_received', function(bot, message) {
                 ]
               },
               {
-                "title": hospitals[1].name,
+                "title": hospitals.results[1].name,
                 "image_url": "http://petersapparel.parseapp.com/img/item101-thumb.png",
-                "subtitle": hospitals[1].vicinity,
+                "subtitle": hospitals.results[1].vicinity,
                 "buttons":[
                   {
                     "type":"web_url",
