@@ -77,8 +77,8 @@ controller.on('facebook_postback', function(bot, message){
       if (!error && response.statusCode == 200) {
           var details = JSON.parse(body);
 
-          var phoneNumber = details.formatted_phone_number
-
+          var phoneNumber = details.result.formatted_phone_number
+          console.log("Phone Number: " + phoneNumber)
           bot.reply(message, phoneNumber)
 
     }
