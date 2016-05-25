@@ -17,9 +17,6 @@ Firebase.initializeApp({
 
 var fbDB = Firebase.database();
 var ref = fbDB.ref("/messages");
-ref.once("value", function(snapshot){
-  console.log(snapshot.val());
-})
 
 
 
@@ -192,6 +189,7 @@ controller.on('message_received', function(bot, message) {
           }
         ]
       }
+    }
       })
 
 
