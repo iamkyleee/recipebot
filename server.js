@@ -84,6 +84,8 @@ controller.on('facebook_postback', function(bot, message){
     }
   })
 
+}
+
 
   switch (message.payload) {
     case 'show_cat':
