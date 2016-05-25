@@ -117,6 +117,8 @@ controller.on('message_received', function(bot, message) {
             return;
         }
 
+        console.log("LAT SAMPLE: ", hostpitals.results[0].geometry.location.lat());
+
         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
         if (!error && response.statusCode == 200) {
@@ -135,7 +137,7 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.long +"",
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat() +","+ hospitals.results[0].geometry.location.long() +"",
                     "title":"Get Directions"
                   },
                   {
@@ -157,7 +159,7 @@ controller.on('message_received', function(bot, message) {
                 "buttons":[
                   {
                     "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.long +"",
+                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat() +","+ hospitals.results[1].geometry.location.long() +"",
                     "title":"Get Directions"
                   },
                   {
