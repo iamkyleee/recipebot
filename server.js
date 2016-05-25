@@ -12,7 +12,7 @@ Firebase.initializeApp({
 });
 
 var fbDB = Firebase.database();
-var ref = db.ref("/messages");
+var ref = fbDB.ref("/messages");
 ref.once("value", function(snapshot){
   console.log(snapshot.val());
 })
