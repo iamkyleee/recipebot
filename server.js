@@ -133,14 +133,14 @@ controller.on('message_received', function(bot, message) {
       url = attachment.url
 
       lat = location.lat;
-      long = location.long
+      long = location.long;
       var type = "hospital"
 
-      // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=500&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+      bot.reply(message, "Your Coords: " + lat + ", "+ long);
+      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=1000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
 
         console.log("BODY: ", body);
-        /*var hospitals = body.results
+        var hospitals = body.results
 
         if (!error && response.statusCode == 200) {
           bot.reply(message, {
@@ -197,7 +197,7 @@ controller.on('message_received', function(bot, message) {
           }
         }
       })
-    }*/
+    }
       })
       // console.log(hospitals);
       // bot.reply(message, JSON.stringify(hospitals));
