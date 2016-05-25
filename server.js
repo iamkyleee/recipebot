@@ -153,7 +153,7 @@ controller.on('message_received', function(bot, message) {
             "elements":[
               {
                 "title": hospitals.results[0].name,
-                "image_url": "http://petersapparel.parseapp.com/img/item100-thumb.png",
+                "image_url": getPlacePhoto(hospitals.results[0]),
                 "subtitle": hospitals.results[0].name,
                 "buttons":[
                   {
@@ -175,7 +175,7 @@ controller.on('message_received', function(bot, message) {
               },
               {
                 "title": hospitals.results[1].name,
-                "image_url": "http://petersapparel.parseapp.com/img/item101-thumb.png",
+                "image_url": getPlacePhoto(hospitals.results[1]),
                 "subtitle": hospitals.results[1].vicinity,
                 "buttons":[
                   {
@@ -235,10 +235,10 @@ function findPlaces(lat, long, type){
 
 }
 
-function getPlacePhoto(photoReference){
-  httpRequest('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ photoReference +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
-    if (!error && response.statusCode == 200) {
-      return body
-    }
-  })
+function getPlacePhoto(place){
+  if (!place.photos) {
+    return "http://www.improvefaster.com/img/hospitals/hospitals15.jpg"
+  }
+  const imageUrl =
+      return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ place +'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
 }
