@@ -218,7 +218,7 @@ controller.on('message_received', function(bot, message) {
     // carefully examine and
     // handle the message here!
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
-}
+});
 
 function getPhoneNumber(placeId){
 
