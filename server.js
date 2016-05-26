@@ -199,6 +199,7 @@ controller.on('message_received', function(bot, message) {
 
         image = attachment.payload.url
     }
+  }
 
 
 
