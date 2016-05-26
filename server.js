@@ -1,6 +1,17 @@
 var Botkit = require('botkit');
 var httpRequest = require('request');
 var Firebase = require('firebase');
+
+var image = false,
+    location = false,
+    url = false,
+    attachment,
+    author = message.user,
+    timestamp = message.timestamp,
+    text = message.text,
+    lat = false,
+    long = false;
+
 // var config = require('./config.js');
 
 
@@ -101,18 +112,10 @@ controller.on('message_received', function(bot, message) {
 function findHospital(bot, message) {
     bot.startConversation(message, function(err, convo) {
         convo.ask("Please attach your location", function(response, convo) {
-            var image = false,
-                location = false,
-                url = false,
-                attachment,
-                author = message.user,
-                timestamp = message.timestamp,
-                text = message.text,
-                lat = false,
-                long = false;
-
-            if (message.attachments && message.attachments.length > 0) {
-                attachment = message.attachments[0];
+          console.log("RESPONSE: ", response)
+          console.log("CONVO: ", convo);
+            if (response.attachments && response.attachments.length > 0) {
+                attachment = response.attachments[0];
 
 
                 if (attachment.type === 'image') {
@@ -205,6 +208,8 @@ function findHospital(bot, message) {
             }
 
         })
+    }, function(response, convvo){
+
     })
 }
 
