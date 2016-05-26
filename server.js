@@ -58,6 +58,33 @@ controller.hears(['help'], 'message_received', function(bot, message) {
     findHospital(bot, message);
 })
 
+controller.hears(['shutdown'], 'message_received', function(bot, message) {
+
+    bot.startConversation(message, function(err, convo) {
+
+        convo.ask('Are you sure you want me to shutdown?', [
+            {
+                pattern: bot.utterances.yes,
+                callback: function(response, convo) {
+                    convo.say('Bye!');
+                    convo.next();
+                    setTimeout(function() {
+                        process.exit();
+                    }, 3000);
+                }
+            },
+        {
+            pattern: bot.utterances.no,
+            default: true,
+            callback: function(response, convo) {
+                convo.say('*Phew!*');
+                convo.next();
+            }
+        }
+        ]);
+    });
+});
+
 controller.on('facebook_postback', function(bot, message) {
 
     if (message.payload.startsWith('GetNumber')) {
@@ -162,9 +189,9 @@ function findHospital(bot, message) {
                         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
                         if (!error && resp.statusCode == 200) {
-                            convo.say(response, "These are the 3 nearest Hospitals");
+                            convo.say("These are the 3 nearest Hospitals");
 
-                            convo.say(response, {
+                            convo.ask({
                                 "attachment": {
                                     "type": "template",
                                     "payload": {
@@ -207,7 +234,6 @@ function findHospital(bot, message) {
                                     }
                                 }
                             })
-                            convo.stop();
                         }
                     })
                 }
@@ -215,7 +241,8 @@ function findHospital(bot, message) {
 
         })
     }, function(response, convvo){
-
+      
+      convo.stop();
     })
 }
 
