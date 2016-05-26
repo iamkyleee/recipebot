@@ -42,6 +42,124 @@ controller.setupWebserver(port, function(err, webserver){
 
 })
 
+controller.hears(['help'], 'message_received', function(bot, message){
+  bot.startConverstaion(message, function(err, convo){
+    convo.ask("Please attach your location", function(response, convo){
+      var image     = false,
+          location  = false,
+          url = false,
+          attachment,
+          author    = message.user,
+          timestamp = message.timestamp,
+          text      = message.text,
+          lat = false,
+          long = false;
+
+      if (attachment.type === 'location' ) {
+        if (!message.text)
+          text = false
+
+        if (attachment.title)
+          text = attachment.title
+
+
+
+        location = attachment.payload.coordinates
+        url = attachment.url
+
+        lat = location.lat;
+        long = location.long;
+        var type = "hospital"
+
+        // bot.reply(message, "Your Coords: " + lat + ", "+ long);
+        httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=10000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
+
+          // console.log("BODY: ", body);
+          var hospitals = JSON.parse(body)
+
+          if (hospitals.status !== "OK") {
+              return;
+          }
+
+
+          // console.log("FIRST HOSPITAL: ", body.results[0].name);
+
+          if (!error && response.statusCode == 200) {
+            convo.say(message, "These are the 3 nearest Hospitals");
+
+            bot.reply(message, {
+              "attachment":{
+            "type":"template",
+            "payload":{
+              "template_type":"generic",
+              "elements":[
+                {
+                  "title": hospitals.results[0].name,
+                  "image_url": getPlacePhoto(hospitals.results[0]),
+                  "subtitle": hospitals.results[0].name,
+                  "buttons":[
+                    {
+                      "type":"web_url",
+                      "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.lng,
+                      "title":"Get Directions"
+                    },
+                    {
+                      "type":"web_url",
+                      "url":"http://yahoo.com",
+                      "title":"Buy Item"
+                    },
+                    {
+                      "type":"postback",
+                      "title":"Get Phone Number",
+                      "payload":"GetNumber@" + hospitals.results[0].place_id
+                    }
+                  ]
+                },
+                {
+                  "title": hospitals.results[1].name,
+                  "image_url": getPlacePhoto(hospitals.results[1]),
+                  "subtitle": hospitals.results[1].vicinity,
+                  "buttons":[
+                    {
+                      "type":"web_url",
+                      "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.lng,
+                      "title":"Get Directions"
+                    },
+                    {
+                      "type":"web_url",
+                      "url":"https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
+                      "title":"Buy Item"
+                    },
+                    {
+                      "type":"postback",
+                      "title":"Bookmark Item",
+                      "payload":"GetNumber@"+ hospitals.results[1].place_id
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        })
+
+        convo.stop();
+
+      }
+        })
+        // console.log(hospitals);
+        // bot.reply(message, JSON.stringify(hospitals));
+
+
+
+
+
+
+      }
+
+    })
+  })
+})
+
 controller.on('facebook_postback', function(bot, message){
 
   if (message.payload.startsWith('GetNumber')) {
@@ -67,15 +185,6 @@ controller.on('facebook_postback', function(bot, message){
 })
 
 controller.on('message_received', function(bot, message) {
-  var image     = false,
-      location  = false,
-      url = false,
-      attachment,
-      author    = message.user,
-      timestamp = message.timestamp,
-      text      = message.text,
-      lat = false,
-      long = false;
 
   // console.log("MESSAGE: ", JSON.stringify(message));
 
@@ -91,105 +200,7 @@ controller.on('message_received', function(bot, message) {
         image = attachment.payload.url
     }
 
-    if (attachment.type === 'location' ) {
-      if (!message.text)
-        text = false
 
-      if (attachment.title)
-        text = attachment.title
-
-
-
-      location = attachment.payload.coordinates
-      url = attachment.url
-
-      lat = location.lat;
-      long = location.long;
-      var type = "hospital"
-
-      // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-      httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ long +'&radius=10000&type='+type+'&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body){
-
-        // console.log("BODY: ", body);
-        var hospitals = JSON.parse(body)
-
-        if (hospitals.status !== "OK") {
-            return;
-        }
-
-
-        // console.log("FIRST HOSPITAL: ", body.results[0].name);
-
-        if (!error && response.statusCode == 200) {
-          bot.reply(message, "These are the 3 nearest Hospitals");
-
-          bot.reply(message, {
-            "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-              {
-                "title": hospitals.results[0].name,
-                "image_url": getPlacePhoto(hospitals.results[0]),
-                "subtitle": hospitals.results[0].name,
-                "buttons":[
-                  {
-                    "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[0].geometry.location.lat +","+ hospitals.results[0].geometry.location.lng,
-                    "title":"Get Directions"
-                  },
-                  {
-                    "type":"web_url",
-                    "url":"http://yahoo.com",
-                    "title":"Buy Item"
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Get Phone Number",
-                    "payload":"GetNumber@" + hospitals.results[0].place_id
-                  }
-                ]
-              },
-              {
-                "title": hospitals.results[1].name,
-                "image_url": getPlacePhoto(hospitals.results[1]),
-                "subtitle": hospitals.results[1].vicinity,
-                "buttons":[
-                  {
-                    "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/"+hospitals.results[1].geometry.location.lat +","+ hospitals.results[1].geometry.location.lng,
-                    "title":"Get Directions"
-                  },
-                  {
-                    "type":"web_url",
-                    "url":"https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
-                    "title":"Buy Item"
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Bookmark Item",
-                    "payload":"GetNumber@"+ hospitals.results[1].place_id
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      })
-    }
-      })
-      // console.log(hospitals);
-      // bot.reply(message, JSON.stringify(hospitals));
-
-
-
-
-
-
-    }
-
-  }
 
   // ref.child("chats").push({
   //   author: author,
