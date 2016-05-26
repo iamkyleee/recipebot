@@ -6,9 +6,9 @@ var image = false,
     location = false,
     url = false,
     attachment,
-    author = message.user,
-    timestamp = message.timestamp,
-    text = message.text,
+    author = false
+    timestamp = false,
+    text = false,
     lat = false,
     long = false;
 
@@ -111,7 +111,11 @@ controller.on('message_received', function(bot, message) {
 
 function findHospital(bot, message) {
     bot.startConversation(message, function(err, convo) {
+      author = message.user
+      timestamp = message.timestamp
+      text = message.text
         convo.ask("Please attach your location", function(response, convo) {
+
           console.log("RESPONSE: ", response)
           console.log("CONVO: ", convo);
             if (response.attachments && response.attachments.length > 0) {
