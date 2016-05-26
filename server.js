@@ -73,6 +73,7 @@ controller.on('facebook_postback', function(bot, message) {
                 var phoneNumber = details.result.formatted_phone_number
                     // console.log("Phone Number: " + phoneNumber)
                 bot.reply(message, phoneNumber)
+                return;
 
             }
         });
@@ -111,10 +112,10 @@ controller.on('message_received', function(bot, message) {
 
 function findHospital(bot, message) {
     bot.startConversation(message, function(err, convo) {
-      author = message.user
-      timestamp = message.timestamp
-      text = message.text
         convo.ask("Please attach your location", function(response, convo) {
+          author = response.user
+          timestamp = response.timestamp
+          text = response.text
 
           console.log("RESPONSE: ", response)
           console.log("CONVO: ", convo);
@@ -147,7 +148,7 @@ function findHospital(bot, message) {
                     var type = "hospital"
 
                     // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-                    httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body) {
+                    httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
 
                         // console.log("BODY: ", body);
                         var hospitals = JSON.parse(body)
@@ -156,13 +157,14 @@ function findHospital(bot, message) {
                             return;
                         }
 
+                        // convo.say('These are the 2 Nearest Hospitals')
 
                         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
-                        if (!error && response.statusCode == 200) {
-                            convo.say(message, "These are the 3 nearest Hospitals");
+                        if (!error && resp.statusCode == 200) {
+                            convo.say(response, "These are the 3 nearest Hospitals");
 
-                            bot.reply(message, {
+                            convo.say(response, {
                                 "attachment": {
                                     "type": "template",
                                     "payload": {
