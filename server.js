@@ -1,12 +1,12 @@
-var Botkit      = require('botkit');
+var Botkit = require('botkit');
 var httpRequest = require('request');
-var Firebase    = require('firebase');
+var Firebase = require('firebase');
 // var config = require('./config.js');
 
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
-var port        = process.env.PORT
+var port = process.env.PORT
 
 
 // process.exit();
@@ -17,7 +17,7 @@ Firebase.initializeApp({
 });
 
 var fbDB = Firebase.database();
-var ref  = fbDB.ref("/messages");
+var ref = fbDB.ref("/messages");
 
 
 
@@ -43,7 +43,7 @@ controller.setupWebserver(port, function(err, webserver) {
 })
 
 controller.hears(['help'], 'message_received', function(bot, message) {
-  
+
     findHospital(bot, message);
 })
 
@@ -76,17 +76,7 @@ controller.on('message_received', function(bot, message) {
     // console.log("MESSAGE: ", JSON.stringify(message));
 
 
-    if (message.attachments && message.attachments.length > 0) {
-        attachment = message.attachments[0];
 
-
-        if (attachment.type === 'image') {
-            if (!message.text)
-                text = false
-
-            image = attachment.payload.url
-        }
-    }
 
 
 
@@ -121,84 +111,97 @@ function findHospital(bot, message) {
                 lat = false,
                 long = false;
 
-            if (attachment.type === 'location') {
-                if (!message.text)
-                    text = false
-
-                if (attachment.title)
-                    text = attachment.title
+            if (message.attachments && message.attachments.length > 0) {
+                attachment = message.attachments[0];
 
 
+                if (attachment.type === 'image') {
+                    if (!message.text)
+                        text = false
 
-                location = attachment.payload.coordinates
-                url = attachment.url
-
-                lat = location.lat;
-                long = location.long;
-                var type = "hospital"
-
-                // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-                httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body) {
-
-                    // console.log("BODY: ", body);
-                    var hospitals = JSON.parse(body)
-
-                    if (hospitals.status !== "OK") {
-                        return;
-                    }
+                    image = attachment.payload.url
+                }
 
 
-                    // console.log("FIRST HOSPITAL: ", body.results[0].name);
+                if (attachment.type === 'location') {
+                    if (!message.text)
+                        text = false
 
-                    if (!error && response.statusCode == 200) {
-                        convo.say(message, "These are the 3 nearest Hospitals");
+                    if (attachment.title)
+                        text = attachment.title
 
-                        bot.reply(message, {
-                            "attachment": {
-                                "type": "template",
-                                "payload": {
-                                    "template_type": "generic",
-                                    "elements": [{
-                                        "title": hospitals.results[0].name,
-                                        "image_url": getPlacePhoto(hospitals.results[0]),
-                                        "subtitle": hospitals.results[0].name,
-                                        "buttons": [{
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[0].geometry.location.lat + "," + hospitals.results[0].geometry.location.lng,
-                                            "title": "Get Directions"
+
+
+                    location = attachment.payload.coordinates
+                    url = attachment.url
+
+                    lat = location.lat;
+                    long = location.long;
+                    var type = "hospital"
+
+                    // bot.reply(message, "Your Coords: " + lat + ", "+ long);
+                    httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, response, body) {
+
+                        // console.log("BODY: ", body);
+                        var hospitals = JSON.parse(body)
+
+                        if (hospitals.status !== "OK") {
+                            return;
+                        }
+
+
+                        // console.log("FIRST HOSPITAL: ", body.results[0].name);
+
+                        if (!error && response.statusCode == 200) {
+                            convo.say(message, "These are the 3 nearest Hospitals");
+
+                            bot.reply(message, {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload": {
+                                        "template_type": "generic",
+                                        "elements": [{
+                                            "title": hospitals.results[0].name,
+                                            "image_url": getPlacePhoto(hospitals.results[0]),
+                                            "subtitle": hospitals.results[0].name,
+                                            "buttons": [{
+                                                "type": "web_url",
+                                                "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[0].geometry.location.lat + "," + hospitals.results[0].geometry.location.lng,
+                                                "title": "Get Directions"
+                                            }, {
+                                                "type": "web_url",
+                                                "url": "http://yahoo.com",
+                                                "title": "Buy Item"
+                                            }, {
+                                                "type": "postback",
+                                                "title": "Get Phone Number",
+                                                "payload": "GetNumber@" + hospitals.results[0].place_id
+                                            }]
                                         }, {
-                                            "type": "web_url",
-                                            "url": "http://yahoo.com",
-                                            "title": "Buy Item"
-                                        }, {
-                                            "type": "postback",
-                                            "title": "Get Phone Number",
-                                            "payload": "GetNumber@" + hospitals.results[0].place_id
+                                            "title": hospitals.results[1].name,
+                                            "image_url": getPlacePhoto(hospitals.results[1]),
+                                            "subtitle": hospitals.results[1].vicinity,
+                                            "buttons": [{
+                                                "type": "web_url",
+                                                "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[1].geometry.location.lat + "," + hospitals.results[1].geometry.location.lng,
+                                                "title": "Get Directions"
+                                            }, {
+                                                "type": "web_url",
+                                                "url": "https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
+                                                "title": "Buy Item"
+                                            }, {
+                                                "type": "postback",
+                                                "title": "Bookmark Item",
+                                                "payload": "GetNumber@" + hospitals.results[1].place_id
+                                            }]
                                         }]
-                                    }, {
-                                        "title": hospitals.results[1].name,
-                                        "image_url": getPlacePhoto(hospitals.results[1]),
-                                        "subtitle": hospitals.results[1].vicinity,
-                                        "buttons": [{
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[1].geometry.location.lat + "," + hospitals.results[1].geometry.location.lng,
-                                            "title": "Get Directions"
-                                        }, {
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
-                                            "title": "Buy Item"
-                                        }, {
-                                            "type": "postback",
-                                            "title": "Bookmark Item",
-                                            "payload": "GetNumber@" + hospitals.results[1].place_id
-                                        }]
-                                    }]
+                                    }
                                 }
-                            }
-                        })
-                        convo.stop();
-                    }
-                })
+                            })
+                            convo.stop();
+                        }
+                    })
+                }
             }
 
         })
