@@ -167,13 +167,6 @@ function findHospital(bot, message) {
         }
 
       askLocation = function(response, convo){
-
-
-
-
-
-
-
       // convo.say('Please Attach your Location');
 
         convo.ask("Please attach your location", function(response, convo) {
@@ -278,7 +271,7 @@ function findHospital(bot, message) {
                 }
             }
 
-        })
+
     }, function(response, convvo){
 
       convo.stop();
