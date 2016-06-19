@@ -274,7 +274,8 @@ function findHospital(bot, message) {
         }, function(response, convvo) {
 
             convo.stop();
-        })
+        });
+
     }
 
     function getPhoneNumber(placeId) {
@@ -290,5 +291,4 @@ function findHospital(bot, message) {
         return imageUrl
     }
 
-});
 }
