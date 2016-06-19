@@ -137,7 +137,7 @@ controller.on('message_received', function(bot, message) {
 function findHospital(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
-            askHelpKind = function(response, convo) {
+            // askHelpKind = function(response, convo) {
                 // convo.say("")
                 convo.ask({
                     "attachment": {
@@ -160,9 +160,9 @@ function findHospital(bot, message) {
                         convo.say("These are what I Found");
                         convo.next();
                         askLocation();
-                    }
+                    });
                 });
-            }
+            // }
 
             askLocation = function(response, convo) {
                 // convo.say('Please Attach your Location');
@@ -289,6 +289,5 @@ function findHospital(bot, message) {
                 return imageUrl
             }
 
-        askHelpKind();    
         });
     }
