@@ -55,29 +55,29 @@ controller.setupWebserver(port, function(err, webserver) {
 
 controller.hears(['help'], 'message_received', function(bot, message) {
     bot.startConversation(message, function(err, convo) {
-            // askHelpKind = function(response, convo) {
-            convo.say("What can I do for you?");
-            bot.reply(message, {
-                    attachment: {
-                        'type': "template",
-                        'payload': {
-                            "template_type": "button",
-                            "text": "What Kind of Help Do You Need?",
-                            "buttons": [{
-                                "type": "postback",
-                                "payload": "NEAR_POLICE",
-                                "title": "Nearest Police Station"
-                            }, {
-                                "type": "postback",
-                                "title": "Nearest Hospital",
-                                "payload": "NEAR_HOSPITAL"
-                            }]
-                        }
-                    }
+        // askHelpKind = function(response, convo) {
+        convo.say("What can I do for you?");
+        bot.reply(message, {
+            attachment: {
+                'type': "template",
+                'payload': {
+                    "template_type": "button",
+                    "text": "What Kind of Help Do You Need?",
+                    "buttons": [{
+                        "type": "postback",
+                        "payload": "NEAR_POLICE",
+                        "title": "Nearest Police Station"
+                    }, {
+                        "type": "postback",
+                        "title": "Nearest Hospital",
+                        "payload": "NEAR_HOSPITAL"
+                    }]
                 }
+            }
+        });
+    });
 
-            });
-    }); findHospital(bot, message);
+    findHospital(bot, message);
 })
 
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
