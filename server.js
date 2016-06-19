@@ -143,7 +143,7 @@ function findHospital(bot, message) {
 
       askHelpKind = function(response, convo){
         // convo.say("")
-        convo.ask(
+        convo.ask({
           "attachment": {
             "type": "template",
             "payload": {
@@ -159,9 +159,9 @@ function findHospital(bot, message) {
                     "payload": "USER_DEFINED_PAYLOAD"
                 }]
             }
-          },
-            function(response, convo) {
+          }, function(response, convo) {
                 convo.say("These are what I Found");
+                convo.next();
                 askLocation();
             })
         }
