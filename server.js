@@ -158,16 +158,17 @@ function findHospital(bot, message) {
                     "title": "Get Nearest Hospital",
                     "payload": "USER_DEFINED_PAYLOAD"
                 }]
-            },
+            }
+          },
             function(response, convo) {
                 convo.say("These are what I Found");
-
+                askLocation();
             })
         }
 
       askLocation = function(response, convo){
 
-      }
+
 
 
 
@@ -209,7 +210,7 @@ function findHospital(bot, message) {
 
                     lat = location.lat;
                     long = location.long;
-                    var type = "police"
+                    var type = "hospital"
 
                     // bot.reply(message, "Your Coords: " + lat + ", "+ long);
                     httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
