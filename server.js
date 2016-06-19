@@ -6,8 +6,8 @@ var image = false,
     location = false,
     url = false,
     attachment,
-    author = false
-timestamp = false,
+    author = false,
+    timestamp = false,
     text = false,
     lat = false,
     long = false;
@@ -138,11 +138,11 @@ function findHospital(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
         // askHelpKind = function(response, convo) {
-        // convo.say("")
-        convo.ask({
-            "attachment": {
-                "type": "template",
-                "payload": {
+        convo.say("What can I do for you?");
+        bot.reply(message, {
+            attachment: {
+                'type': "template",
+                'payload': {
                     "template_type": "button",
                     "text": "What Kind of Help Do You Need?",
                     "buttons": [{
