@@ -85,7 +85,7 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
     });
 });
 
-controller.on('facebook_postback', function(bot, message) {
+/*controller.on('facebook_postback', function(bot, message) {
 
     if (message.payload.startsWith('GetNumber')) {
         var place_id = message.payload.split('@')[1] || 'error getting place id';
@@ -108,7 +108,7 @@ controller.on('facebook_postback', function(bot, message) {
     }
 
 
-})
+})*/
 
 controller.on('message_received', function(bot, message) {
 
@@ -138,14 +138,51 @@ controller.on('message_received', function(bot, message) {
 });
 
 function findHospital(bot, message) {
+
     bot.startConversation(message, function(err, convo) {
+
+      askHelpKind = function(response, convo){
+        // convo.say("")
+        convo.ask(
+          "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "What Kind of Help Do You Need?",
+                "buttons": [{
+                    "type": "postback",
+                    "url": "https://petersapparel.parseapp.com",
+                    "title": "Show Website"
+                }, {
+                    "type": "postback",
+                    "title": "Get Nearest Hospital",
+                    "payload": "USER_DEFINED_PAYLOAD"
+                }]
+            },
+            function(response, convo) {
+                convo.say("These are what I Found");
+
+            })
+        }
+
+      askLocation = function(response, convo){
+
+      }
+
+
+
+
+
+      // convo.say('Please Attach your Location');
+
         convo.ask("Please attach your location", function(response, convo) {
+
           author = response.user
           timestamp = response.timestamp
           text = response.text
 
           console.log("RESPONSE: ", response)
-          console.log("CONVO: ", convo);
+          // console.log("CONVO: ", convo);
             if (response.attachments && response.attachments.length > 0) {
                 attachment = response.attachments[0];
 
@@ -172,7 +209,7 @@ function findHospital(bot, message) {
 
                     lat = location.lat;
                     long = location.long;
-                    var type = "hospital"
+                    var type = "police"
 
                     // bot.reply(message, "Your Coords: " + lat + ", "+ long);
                     httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&radius=10000&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
@@ -189,7 +226,8 @@ function findHospital(bot, message) {
                         // console.log("FIRST HOSPITAL: ", body.results[0].name);
 
                         if (!error && resp.statusCode == 200) {
-                            convo.say("These are the 3 nearest Hospitals");
+                          convo.next();
+                          convo.say("These are the 3 nearest Hospitals");
 
                             convo.ask({
                                 "attachment": {
@@ -241,7 +279,7 @@ function findHospital(bot, message) {
 
         })
     }, function(response, convvo){
-      
+
       convo.stop();
     })
 }
