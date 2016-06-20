@@ -96,6 +96,7 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
             default: true,
             callback: function(response, convo) {
                 convo.say('*Phew!*');
+                
                 convo.next();
             }
         }]);
