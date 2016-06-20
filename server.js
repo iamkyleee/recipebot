@@ -173,7 +173,7 @@ function findHospital(bot, message) {
 
     askLocation = function(response, convo) {
             // console.log(convo.messages);
-            convo.say("Ok, Let's find the nearest hospital in your area");
+            // convo.say("Ok, Let's find the nearest hospital in your area");
             convo.ask("Where are you now?", function(response, convo) {
                 // convo.say("Ok, Hang On");
                 // convo.say("I'll see what I can find at ", response.text)
