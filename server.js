@@ -228,7 +228,7 @@ function findHospital(bot, message) {
                 })
             }
         })
-        convo.stop();
+        // convo.stop();
     })
 }
 
