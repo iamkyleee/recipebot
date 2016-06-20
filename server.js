@@ -254,6 +254,7 @@ function askLocation(convo) {
 
                 lat = location.lat;
                 long = location.long;
+                convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
                 // convo.next();
                 // return;
