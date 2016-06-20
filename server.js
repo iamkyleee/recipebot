@@ -111,6 +111,10 @@ controller.on('facebook_postback', function(bot, message) {
                 var details = JSON.parse(body);
 
                 var phoneNumber = details.result.formatted_phone_number
+                if (!phoneNumber) {
+                  bot.reply("Cannot Find Phone Number");
+                  return;
+                }
                     // console.log("Phone Number: " + phoneNumber)
                 bot.reply(message, phoneNumber)
                 return;
