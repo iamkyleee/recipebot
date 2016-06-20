@@ -163,9 +163,9 @@ function findHospital(bot, message) {
         askLocation(convo);
         // console.log("RESPONSE: ", response)
 
-        author = response.user
-        timestamp = response.timestamp
-        text = response.text
+        // author = response.user
+        // timestamp = response.timestamp
+        // text = response.text
 
         var type = "hospital"
             // bot.reply(message, "Your Coords: " + lat + ", "+ long);
@@ -239,8 +239,10 @@ function askLocation(convo) {
         if (response.attachments && response.attachments.length > 0) {
             attachment = response.attachments[0];
             if (attachment.type === 'location') {
-                if (!message.text)
-                    text = false
+                // if (!message.text)
+                    // text = false
+                console.log("CONVO: ", convo);
+                console.log("RESPONSE: ", response);
 
                 if (attachment.title)
                     text = attachment.title
