@@ -225,7 +225,7 @@ function findHospital(bot, message) {
                 if (!error && resp.statusCode == 200) {
                     // convo.next();
                     convo.say("These are the 3 nearest Hospitals");
-                    bot.reply({
+                    /*bot.reply({
                         "attachment": {
                             "type": "template",
                             "payload": {
@@ -267,7 +267,7 @@ function findHospital(bot, message) {
                                 }]
                             }
                         }
-                    });
+                    });*/
                 }
             })
         }
