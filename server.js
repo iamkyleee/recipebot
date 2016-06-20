@@ -209,7 +209,7 @@ function findHospital(bot, message) {
             convo.say("Let's see what I can find");
             var type = "hospital"
                 // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-            httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankBy=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
+            httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankby=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
                 var hospitals = JSON.parse(body)
                 if (hospitals.status !== "OK") {
                     return;
