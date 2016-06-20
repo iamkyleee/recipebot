@@ -233,6 +233,7 @@ function findHospital(bot, message) {
 }
 
 function askLocation(convo) {
+  console.log(convo);
     convo.ask("Where are you now?", function(response, convo) {
 
         //Attached Location
@@ -254,7 +255,7 @@ function askLocation(convo) {
                 long = location.long;
 
                 convo.next();
-                return;
+                // return;
             }
         }
     })
