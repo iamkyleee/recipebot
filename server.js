@@ -72,9 +72,6 @@ controller.hears(['help'], 'message_received', function(bot, message) {
             }
         }
     });
-}
-
-// findHospital(bot, message, convo);
 })
 
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
