@@ -54,7 +54,6 @@ controller.setupWebserver(port, function(err, webserver) {
 })
 
 controller.hears(['help'], 'message_received', function(bot, message) {
-    bot.startConversation(message, function(err, convo) {
         bot.reply(message, {
             attachment: {
                 'type': "template",
@@ -73,7 +72,6 @@ controller.hears(['help'], 'message_received', function(bot, message) {
                 }
             }
         });
-    })
 })
 
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
