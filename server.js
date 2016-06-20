@@ -54,6 +54,7 @@ controller.setupWebserver(port, function(err, webserver) {
 })
 
 controller.hears(['help'], 'message_received', function(bot, message) {
+  bot.startConversation(message, function(err, convo){
     bot.reply(message, {
         attachment: {
             'type': "template",
@@ -72,6 +73,7 @@ controller.hears(['help'], 'message_received', function(bot, message) {
             }
         }
     });
+  })
 })
 
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
@@ -125,6 +127,7 @@ controller.on('facebook_postback', function(bot, message) {
     }
 
     if (message.payload == 'NEAR_HOSPITAL') {
+        convo.next();
         findHospital(bot, message);
     }
 
@@ -233,7 +236,7 @@ function findHospital(bot, message) {
 }
 
 function askLocation(convo) {
-    console.log(convo.messages);
+    // console.log(convo.messages);
     convo.say("Ok, Let's find the nearest hospital in your area");
     convo.ask("Where are you now?", function(response, convo) {
         console.log(response);
@@ -241,10 +244,11 @@ function askLocation(convo) {
         if (response.attachments && response.attachments.length > 0) {
             attachment = response.attachments[0];
             if (attachment.type === 'location') {
-                // if (!message.text)
-                // text = false
-                console.log("CONVO: ", convo);
-                console.log("RESPONSE: ", response);
+                if (!response.message.text)
+                text = false
+
+                // console.log("CONVO: ", convo);
+                console.log("attachment: ", attachment);
 
                 if (attachment.title)
                     text = attachment.title
@@ -256,7 +260,7 @@ function askLocation(convo) {
                 long = location.long;
                 convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                // convo.next();
+                convo.next();
                 // return;
             }
         }
