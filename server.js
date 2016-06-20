@@ -96,7 +96,7 @@ controller.hears(['shutdown'], 'message_received', function(bot, message) {
             default: true,
             callback: function(response, convo) {
                 convo.say('*Phew!*');
-                
+
                 convo.next();
             }
         }]);
@@ -186,6 +186,7 @@ function findPolice(bot, message) {
           callback: function(response, convo) {
               convo.say('*Phew!*');
               convo.next();
+              convo.stop();
           }
       }]);
     }
@@ -218,7 +219,7 @@ function findPolice(bot, message) {
                         long = location.long;
                         // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                        getPoliceStations(response, convo);
+                        // getPoliceStations(response, convo);
                         convo.next();
                         // return;
                     }
