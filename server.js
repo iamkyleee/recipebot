@@ -279,5 +279,3 @@ function getPlacePhoto(place) {
     const imageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + place.photos[0].photo_reference + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw'
     return imageUrl
 }
-
-}
