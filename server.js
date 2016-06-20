@@ -195,10 +195,11 @@ function findHospital(bot, message) {
                     long = location.long;
                     convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                    // getHospitals(response, convo);
                     // return;
                 }
             }
+            
+            getHospitals(response, convo);
             convo.next();
         })
     }
