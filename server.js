@@ -179,7 +179,7 @@ function findHospital(bot, message) {
             if (response.attachments && response.attachments.length > 0) {
                 attachment = response.attachments[0];
                 if (attachment.type === 'location') {
-                    if (!response.message.text)
+                    if (!response.text)
                         text = false
 
                     // console.log("CONVO: ", convo);
