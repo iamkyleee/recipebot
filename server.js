@@ -165,7 +165,7 @@ controller.on('message_received', function(bot, message) {
 });
 
 function findHospital(bot, message) {
-    askLocation();
+    askLocation(response, convo);
     console.log("RESPONSE: ", response)
 
     author = response.user
