@@ -112,10 +112,10 @@ controller.on('facebook_postback', function(bot, message) {
 
                 var phoneNumber = details.result.formatted_phone_number
                 if (!phoneNumber) {
-                  bot.reply("Cannot Find Phone Number");
-                  return;
+                    bot.reply("Cannot Find Phone Number");
+                    return;
                 }
-                    // console.log("Phone Number: " + phoneNumber)
+                // console.log("Phone Number: " + phoneNumber)
                 bot.reply(message, phoneNumber)
                 return;
 
@@ -125,7 +125,7 @@ controller.on('facebook_postback', function(bot, message) {
     }
 
     if (message.payload == 'NEAR_POLICE') {
-
+        findPolice(bot, message);
     }
 
     if (message.payload == 'NEAR_HOSPITAL') {
@@ -162,6 +162,68 @@ controller.on('message_received', function(bot, message) {
     // handle the message here!
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
+
+function findPolice(bot, message) {
+    askEmergency = function(response, convo) {
+      convo.ask('Is this an Emergency?', [{
+          pattern: bot.utterances.yes,
+          callback: function(response, convo) {
+              convo.say('OK! You can DIAL 117 or Attach your exact location');
+              convo.say('You can also take a picture')
+
+              askLocation(response,convo);
+              convo.next();
+
+          }
+      }, {
+          pattern: bot.utterances.no,
+          default: true,
+          callback: function(response, convo) {
+              convo.say('*Phew!*');
+              convo.next();
+          }
+      }]);
+    }
+
+    askLocation = function(response, convo) {
+            // console.log(convo.messages);
+            // convo.say("Ok, Let's find the nearest hospital in your area");
+            convo.ask("Where are you now?", function(response, convo) {
+                // convo.say("Ok, Hang On");
+                // convo.say("I'll see what I can find at ", response.text)
+                // console.log(response);
+                // convo.next();
+                //Attached Location
+                if (response.attachments && response.attachments.length > 0) {
+                    attachment = response.attachments[0];
+                    if (attachment.type === 'location') {
+                        // if (!response.text)
+                        // text = false
+
+                        // console.log("CONVO: ", convo);
+                        console.log("attachment: ", attachment);
+
+                        if (attachment.title)
+                            text = attachment.title
+
+                        location = attachment.payload.coordinates
+                        url = attachment.url
+
+                        lat = location.lat;
+                        long = location.long;
+                        // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
+
+                        getHospitals(response, convo);
+                        convo.next();
+                        // return;
+                    }
+                }
+
+            })
+        }
+        // END ASK LOCATION
+        bot.startConversation(message, askEmergency)
+}
 
 function findHospital(bot, message) {
     // askLocation(convo);
@@ -207,7 +269,7 @@ function findHospital(bot, message) {
 
             })
         }
-        // END ASK LOCATOIN
+        // END ASK LOCATION
 
     getHospitals = function(response, convo) {
             // convo.say("Let's see what I can find");
