@@ -165,7 +165,7 @@ controller.on('message_received', function(bot, message) {
 });
 
 function findHospital(bot, message) {
-    askLocation(response, convo);
+    askLocation();
     console.log("RESPONSE: ", response)
 
     author = response.user
@@ -236,7 +236,7 @@ function findHospital(bot, message) {
     convo.stop();
 }
 
-function askLocation(response, convo) {
+function askLocation() {
     convo.ask("Where are you now?", function(response, convo) {
 
         //Attached Location
