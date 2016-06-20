@@ -62,12 +62,16 @@ controller.hears(['help'], 'message_received', function(bot, message) {
                 "text": "What Kind of Help Do You Need?",
                 "buttons": [{
                     "type": "postback",
-                    "title": "Police Station",
+                    "title": "Police",
                     "payload": "NEAR_POLICE"
                 }, {
                     "type": "postback",
                     "title": "Hospital",
                     "payload": "NEAR_HOSPITAL"
+                },{
+                  "type": "postback",
+                  "title": "Report",
+                  "payload": "REPORT_INCIDENT"
                 }]
             }
         }
