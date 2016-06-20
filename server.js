@@ -174,9 +174,11 @@ function findHospital(bot, message) {
         convo.say("Ok, Let's find the nearest hospital in your area");
         convo.ask("Where are you now?", function(response, convo) {
           convo.say("Ok, Hang On");
+          convo.say("I'll see what I can find at ", response.text)
             console.log(response);
+            convo.next();
             //Attached Location
-            if (response.attachments && response.attachments.length > 0) {
+            /*if (response.attachments && response.attachments.length > 0) {
                 attachment = response.attachments[0];
                 if (attachment.type === 'location') {
                     if (!response.message.text)
@@ -199,7 +201,7 @@ function findHospital(bot, message) {
                     convo.next();
                     // return;
                 }
-            }
+            }*/
         })
     }
     // END ASK LOCATOIN
