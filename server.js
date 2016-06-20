@@ -68,10 +68,10 @@ controller.hears(['help'], 'message_received', function(bot, message) {
                     "type": "postback",
                     "title": "Hospital",
                     "payload": "NEAR_HOSPITAL"
-                },{
-                  "type": "postback",
-                  "title": "Report",
-                  "payload": "REPORT_INCIDENT"
+                }, {
+                    "type": "postback",
+                    "title": "Report",
+                    "payload": "REPORT_INCIDENT"
                 }]
             }
         }
@@ -138,6 +138,10 @@ controller.on('facebook_postback', function(bot, message) {
         findHospital(bot, message);
     }
 
+    if (message.payload == "REPORT_INCIDENT") {
+      reportIncident(bot, message);
+    }
+
 
 })
 
@@ -168,140 +172,144 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
+fucntion reportIncident(bot, message){
+  bot.reply("Coming Soon");
+}
+
 function findPolice(bot, message) {
     askEmergency = function(response, convo) {
-      convo.ask('Is this an Emergency?', [{
-          pattern: bot.utterances.yes,
-          callback: function(response, convo) {
-              convo.say('OK! You can DIAL 117 Emergency Hotline');
-              convo.say('You may also take Pictures or Videos')
+        convo.ask('Is this an Emergency?', [{
+            pattern: bot.utterances.yes,
+            callback: function(response, convo) {
+                convo.say('OK! You can DIAL 117 Emergency Hotline');
+                convo.say('You may also take Pictures or Videos')
 
-              askLocation(response,convo);
-              convo.next();
+                // askLocation(response,convo);
+                convo.next();
 
-          }
-      }, {
-          pattern: bot.utterances.no,
-          default: true,
-          callback: function(response, convo) {
-              convo.say('*Phew!*');
-              convo.next();
-              convo.stop();
-          }
-      }]);
+            }
+        }, {
+            pattern: bot.utterances.no,
+            default: true,
+            callback: function(response, convo) {
+                convo.say('*Phew!*');
+                convo.next();
+                convo.stop();
+            }
+        }]);
     }
 
     askLocation = function(response, convo) {
-            // console.log(convo.messages);
-            // convo.say("Ok, Let's find the nearest hospital in your area");
-            convo.ask("Where are you now?", function(response, convo) {
-                // convo.say("Ok, Hang On");
-                // convo.say("I'll see what I can find at ", response.text)
-                // console.log(response);
-                // convo.next();
-                //Attached Location
-                if (response.attachments && response.attachments.length > 0) {
-                    attachment = response.attachments[0];
-                    if (attachment.type === 'location') {
-                        // if (!response.text)
-                        // text = false
+        // console.log(convo.messages);
+        // convo.say("Ok, Let's find the nearest hospital in your area");
+        convo.ask("Where are you now?", function(response, convo) {
+            // convo.say("Ok, Hang On");
+            // convo.say("I'll see what I can find at ", response.text)
+            // console.log(response);
+            // convo.next();
+            //Attached Location
+            if (response.attachments && response.attachments.length > 0) {
+                attachment = response.attachments[0];
+                if (attachment.type === 'location') {
+                    // if (!response.text)
+                    // text = false
 
-                        // console.log("CONVO: ", convo);
-                        console.log("attachment: ", attachment);
+                    // console.log("CONVO: ", convo);
+                    console.log("attachment: ", attachment);
 
-                        if (attachment.title)
-                            text = attachment.title
+                    if (attachment.title)
+                        text = attachment.title
 
-                        location = attachment.payload.coordinates
-                        url = attachment.url
+                    location = attachment.payload.coordinates
+                    url = attachment.url
 
-                        lat = location.lat;
-                        long = location.long;
-                        // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
+                    lat = location.lat;
+                    long = location.long;
+                    // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                        // getPoliceStations(response, convo);
-                        convo.next();
-                        // return;
-                    }
+                    // getPoliceStations(response, convo);
+                    convo.next();
+                    // return;
                 }
-
-            })
-        }
-
-        getPoliceStations = function(response, convo){
-                // convo.say("Let's see what I can find");
-                var type = "police"
-                    // bot.reply(message, "Your Coords: " + lat + ", "+ long);
-                httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankby=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
-                    var hospitals = JSON.parse(body)
-                    if (hospitals.status !== "OK") {
-                        return;
-                    }
-
-                    convo.say("Here's what I found");
-
-
-                    // convo.say('These are the 2 Nearest Hospitals')
-
-                    // console.log("FIRST HOSPITAL: ", body.results[0].name);
-
-                    if (!error && resp.statusCode == 200) {
-                        // convo.next();
-                        // convo.say("These are the 3 nearest Hospitals");
-                        convo.say({
-                            "attachment": {
-                                "type": "template",
-                                "payload": {
-                                    "template_type": "generic",
-                                    "elements": [{
-                                        "title": hospitals.results[0].name,
-                                        "image_url": getPlacePhoto(hospitals.results[0]),
-                                        "subtitle": hospitals.results[0].name,
-                                        "buttons": [{
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[0].geometry.location.lat + "," + hospitals.results[0].geometry.location.lng,
-                                            "title": "Directions"
-                                        }, {
-                                            "type": "postback",
-                                            "title": "Phone Number",
-                                            "payload": "GetNumber@" + hospitals.results[0].place_id
-                                        }]
-                                    }, {
-                                        "title": hospitals.results[1].name,
-                                        "image_url": getPlacePhoto(hospitals.results[1]),
-                                        "subtitle": hospitals.results[1].vicinity,
-                                        "buttons": [{
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[1].geometry.location.lat + "," + hospitals.results[1].geometry.location.lng,
-                                            "title": "Directions"
-                                        }, {
-                                            "type": "postback",
-                                            "title": "Phone Number",
-                                            "payload": "GetNumber@" + hospitals.results[1].place_id
-                                        }]
-                                    }, {
-                                        "title": hospitals.results[2].name,
-                                        "image_url": getPlacePhoto(hospitals.results[2]),
-                                        "subtitle": hospitals.results[2].vicinity,
-                                        "buttons": [{
-                                            "type": "web_url",
-                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[2].geometry.location.lat + "," + hospitals.results[2].geometry.location.lng,
-                                            "title": "Directions"
-                                        }, {
-                                            "type": "postback",
-                                            "title": "Phone Number",
-                                            "payload": "GetNumber@" + hospitals.results[2].place_id
-                                        }]
-                                    }]
-                                }
-                            }
-                        });
-                    }
-                })
             }
 
-        // END ASK LOCATION
-        bot.startConversation(message, askEmergency)
+        })
+    }
+
+    getPoliceStations = function(response, convo) {
+        // convo.say("Let's see what I can find");
+        var type = "police"
+            // bot.reply(message, "Your Coords: " + lat + ", "+ long);
+        httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankby=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
+            var hospitals = JSON.parse(body)
+            if (hospitals.status !== "OK") {
+                return;
+            }
+
+            convo.say("Here's what I found");
+
+
+            // convo.say('These are the 2 Nearest Hospitals')
+
+            // console.log("FIRST HOSPITAL: ", body.results[0].name);
+
+            if (!error && resp.statusCode == 200) {
+                // convo.next();
+                // convo.say("These are the 3 nearest Hospitals");
+                convo.say({
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": hospitals.results[0].name,
+                                "image_url": getPlacePhoto(hospitals.results[0]),
+                                "subtitle": hospitals.results[0].name,
+                                "buttons": [{
+                                    "type": "web_url",
+                                    "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[0].geometry.location.lat + "," + hospitals.results[0].geometry.location.lng,
+                                    "title": "Directions"
+                                }, {
+                                    "type": "postback",
+                                    "title": "Phone Number",
+                                    "payload": "GetNumber@" + hospitals.results[0].place_id
+                                }]
+                            }, {
+                                "title": hospitals.results[1].name,
+                                "image_url": getPlacePhoto(hospitals.results[1]),
+                                "subtitle": hospitals.results[1].vicinity,
+                                "buttons": [{
+                                    "type": "web_url",
+                                    "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[1].geometry.location.lat + "," + hospitals.results[1].geometry.location.lng,
+                                    "title": "Directions"
+                                }, {
+                                    "type": "postback",
+                                    "title": "Phone Number",
+                                    "payload": "GetNumber@" + hospitals.results[1].place_id
+                                }]
+                            }, {
+                                "title": hospitals.results[2].name,
+                                "image_url": getPlacePhoto(hospitals.results[2]),
+                                "subtitle": hospitals.results[2].vicinity,
+                                "buttons": [{
+                                    "type": "web_url",
+                                    "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[2].geometry.location.lat + "," + hospitals.results[2].geometry.location.lng,
+                                    "title": "Directions"
+                                }, {
+                                    "type": "postback",
+                                    "title": "Phone Number",
+                                    "payload": "GetNumber@" + hospitals.results[2].place_id
+                                }]
+                            }]
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    // END ASK LOCATION
+    bot.startConversation(message, askEmergency)
 }
 
 function findHospital(bot, message) {
