@@ -172,7 +172,7 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
-fucntion reportIncident(bot, message){
+function reportIncident(bot, message){
   bot.reply("Coming Soon");
 }
 
