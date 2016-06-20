@@ -233,15 +233,16 @@ function findHospital(bot, message) {
 }
 
 function askLocation(convo) {
-  console.log(convo);
+    console.log(convo.messages);
+    convo.say("Ok, Let's find the nearest hospital in your area");
     convo.ask("Where are you now?", function(response, convo) {
-
+      console.log(response);
         //Attached Location
         if (response.attachments && response.attachments.length > 0) {
             attachment = response.attachments[0];
             if (attachment.type === 'location') {
                 // if (!message.text)
-                    // text = false
+                // text = false
                 console.log("CONVO: ", convo);
                 console.log("RESPONSE: ", response);
 
