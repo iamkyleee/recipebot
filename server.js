@@ -173,6 +173,7 @@ function findHospital(bot, message) {
         // console.log(convo.messages);
         convo.say("Ok, Let's find the nearest hospital in your area");
         convo.ask("Where are you now?", function(response, convo) {
+          convo.say("Ok, Hang On");
             console.log(response);
             //Attached Location
             if (response.attachments && response.attachments.length > 0) {
