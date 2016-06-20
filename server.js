@@ -168,8 +168,8 @@ function findPolice(bot, message) {
       convo.ask('Is this an Emergency?', [{
           pattern: bot.utterances.yes,
           callback: function(response, convo) {
-              convo.say('OK! You can DIAL 117 or Attach your exact location');
-              convo.say('You can also take a picture')
+              convo.say('OK! You can DIAL 117 Emergency Hotline');
+              convo.say('You may also take Pictures or Videos')
 
               askLocation(response,convo);
               convo.next();
@@ -213,7 +213,7 @@ function findPolice(bot, message) {
                         long = location.long;
                         // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                        getHospitals(response, convo);
+                        getPoliceStations(response, convo);
                         convo.next();
                         // return;
                     }
@@ -221,6 +221,79 @@ function findPolice(bot, message) {
 
             })
         }
+
+        getPoliceStations = function(response, convo){
+                // convo.say("Let's see what I can find");
+                var type = "police"
+                    // bot.reply(message, "Your Coords: " + lat + ", "+ long);
+                httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankby=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
+                    var hospitals = JSON.parse(body)
+                    if (hospitals.status !== "OK") {
+                        return;
+                    }
+
+                    convo.say("Here's what I found");
+
+
+                    // convo.say('These are the 2 Nearest Hospitals')
+
+                    // console.log("FIRST HOSPITAL: ", body.results[0].name);
+
+                    if (!error && resp.statusCode == 200) {
+                        // convo.next();
+                        // convo.say("These are the 3 nearest Hospitals");
+                        convo.say({
+                            "attachment": {
+                                "type": "template",
+                                "payload": {
+                                    "template_type": "generic",
+                                    "elements": [{
+                                        "title": hospitals.results[0].name,
+                                        "image_url": getPlacePhoto(hospitals.results[0]),
+                                        "subtitle": hospitals.results[0].name,
+                                        "buttons": [{
+                                            "type": "web_url",
+                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[0].geometry.location.lat + "," + hospitals.results[0].geometry.location.lng,
+                                            "title": "Directions"
+                                        }, {
+                                            "type": "postback",
+                                            "title": "Phone Number",
+                                            "payload": "GetNumber@" + hospitals.results[0].place_id
+                                        }]
+                                    }, {
+                                        "title": hospitals.results[1].name,
+                                        "image_url": getPlacePhoto(hospitals.results[1]),
+                                        "subtitle": hospitals.results[1].vicinity,
+                                        "buttons": [{
+                                            "type": "web_url",
+                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[1].geometry.location.lat + "," + hospitals.results[1].geometry.location.lng,
+                                            "title": "Directions"
+                                        }, {
+                                            "type": "postback",
+                                            "title": "Phone Number",
+                                            "payload": "GetNumber@" + hospitals.results[1].place_id
+                                        }]
+                                    }, {
+                                        "title": hospitals.results[2].name,
+                                        "image_url": getPlacePhoto(hospitals.results[2]),
+                                        "subtitle": hospitals.results[2].vicinity,
+                                        "buttons": [{
+                                            "type": "web_url",
+                                            "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[2].geometry.location.lat + "," + hospitals.results[2].geometry.location.lng,
+                                            "title": "Directions"
+                                        }, {
+                                            "type": "postback",
+                                            "title": "Phone Number",
+                                            "payload": "GetNumber@" + hospitals.results[2].place_id
+                                        }]
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                })
+            }
+
         // END ASK LOCATION
         bot.startConversation(message, askEmergency)
 }
