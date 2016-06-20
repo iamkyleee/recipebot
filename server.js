@@ -77,7 +77,7 @@ controller.hears(['help'], 'message_received', function(bot, message) {
         });
     });
 
-    findHospital(bot, message);
+    findHospital(bot, message, convo);
 })
 
 controller.hears(['shutdown'], 'message_received', function(bot, message) {
@@ -164,8 +164,8 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
-function findHospital(bot, message) {
-    askLocation();
+function findHospital(bot, message, convo) {
+    askLocation(convo);
     console.log("RESPONSE: ", response)
 
     author = response.user
@@ -236,7 +236,7 @@ function findHospital(bot, message) {
     convo.stop();
 }
 
-function askLocation() {
+function askLocation(convo) {
     convo.ask("Where are you now?", function(response, convo) {
 
         //Attached Location
