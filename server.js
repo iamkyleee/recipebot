@@ -171,7 +171,7 @@ function findHospital(bot, message) {
             // console.log(convo.messages);
             convo.say("Ok, Let's find the nearest hospital in your area");
             convo.ask("Where are you now?", function(response, convo) {
-                convo.say("Ok, Hang On");
+                // convo.say("Ok, Hang On");
                 // convo.say("I'll see what I can find at ", response.text)
                 // console.log(response);
                 // convo.next();
@@ -193,7 +193,7 @@ function findHospital(bot, message) {
 
                         lat = location.lat;
                         long = location.long;
-                        convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
+                        // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
                         getHospitals(response, convo);
                         convo.next();
@@ -206,7 +206,7 @@ function findHospital(bot, message) {
         // END ASK LOCATOIN
 
     getHospitals = function(response, convo) {
-            convo.say("Let's see what I can find");
+            // convo.say("Let's see what I can find");
             var type = "hospital"
                 // bot.reply(message, "Your Coords: " + lat + ", "+ long);
             httpRequest('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + long + '&rankby=distance&type=' + type + '&key=AIzaSyBEDsria02odnrGQPz2Gj_MS_RwdoeG9rw', function(error, resp, body) {
@@ -224,7 +224,7 @@ function findHospital(bot, message) {
 
                 if (!error && resp.statusCode == 200) {
                     // convo.next();
-                    convo.say("These are the 3 nearest Hospitals");
+                    // convo.say("These are the 3 nearest Hospitals");
                     convo.say({
                         "attachment": {
                             "type": "template",
@@ -263,6 +263,23 @@ function findHospital(bot, message) {
                                         "type": "postback",
                                         "title": "Bookmark Item",
                                         "payload": "GetNumber@" + hospitals.results[1].place_id
+                                    }]
+                                }, {
+                                    "title": hospitals.results[2].name,
+                                    "image_url": getPlacePhoto(hospitals.results[2]),
+                                    "subtitle": hospitals.results[2].vicinity,
+                                    "buttons": [{
+                                        "type": "web_url",
+                                        "url": "https://www.google.com/maps/dir/Current+Location/" + hospitals.results[2].geometry.location.lat + "," + hospitals.results[2].geometry.location.lng,
+                                        "title": "Get Directions"
+                                    }, {
+                                        "type": "web_url",
+                                        "url": "https://www.google.com/maps/dir/Current+Location/43.12345,-76.12345",
+                                        "title": "Buy Item"
+                                    }, {
+                                        "type": "postback",
+                                        "title": "Bookmark Item",
+                                        "payload": "GetNumber@" + hospitals.results[2].place_id
                                     }]
                                 }]
                             }
