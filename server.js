@@ -139,7 +139,7 @@ controller.on('facebook_postback', function(bot, message) {
     }
 
     if (message.payload == "REPORT_INCIDENT") {
-      reportIncident(bot, message);
+        reportIncident(bot, message);
     }
 
 
@@ -172,8 +172,8 @@ controller.on('message_received', function(bot, message) {
     // Note: Platforms such as Slack send many kinds of messages, not all of which contain a text field!
 });
 
-function reportIncident(bot, message){
-  bot.reply("Coming Soon");
+function reportIncident(bot, message) {
+    bot.reply("Coming Soon");
 }
 
 function findPolice(bot, message) {
@@ -184,7 +184,7 @@ function findPolice(bot, message) {
                 convo.say('OK! You can DIAL 117 Emergency Hotline');
                 convo.say('You may also take Pictures or Videos')
 
-                askLocation(response,convo);
+                askLocationPolice(response, convo);
                 convo.next();
 
             }
@@ -199,7 +199,7 @@ function findPolice(bot, message) {
         }]);
     }
 
-    askLocation = function(response, convo) {
+    askLocationPolice = function(response, convo) {
         // console.log(convo.messages);
         // convo.say("Ok, Let's find the nearest hospital in your area");
         convo.ask("Where are you now?", function(response, convo) {
@@ -304,8 +304,8 @@ function findPolice(bot, message) {
                         }
                     }
                 });
-                
-                convo.stop();
+
+                convo.next();
             }
         })
     }
