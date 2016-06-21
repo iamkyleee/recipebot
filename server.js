@@ -184,7 +184,7 @@ function findPolice(bot, message) {
                 convo.say('OK! You can DIAL 117 Emergency Hotline');
                 convo.say('You may also take Pictures or Videos')
 
-                // askLocation(response,convo);
+                askLocation(response,convo);
                 convo.next();
 
             }
@@ -227,7 +227,7 @@ function findPolice(bot, message) {
                     long = location.long;
                     // convo.say("I see you are in " + lat + ", " + long + ". Let's find some Hospitals");
 
-                    // getPoliceStations(response, convo);
+                    getPoliceStations(response, convo);
                     convo.next();
                     // return;
                 }
@@ -304,6 +304,8 @@ function findPolice(bot, message) {
                         }
                     }
                 });
+                
+                convo.stop();
             }
         })
     }
